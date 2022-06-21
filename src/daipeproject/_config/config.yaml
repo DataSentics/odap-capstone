@@ -1,0 +1,48 @@
+imports:
+  - jobs.yaml
+  - orchestration.yaml
+
+parameters:
+  daipeproject:
+    datalake:
+      base_path: '/%kernel.environment%'
+    checkpoint:
+      dir: 'dbfs:/tmp/checkpoints'
+    export:
+      clickhouse:
+        host:
+        port:
+      bins:
+        lower_percentile_percentage: 0.05
+        higher_percentile_percentage: 0.95
+        bin_count: 8
+        accuracy: 100
+
+  featurestorebundle:
+    db_name: '%kernel.environment%_odap_feature_store'
+    base_path: 'dbfs:/path/to/feature_store'
+    entities:
+    #  test:
+    #    id_column: "id"
+    #    id_column_type: "string"
+    feature:
+      backend: 'delta_table'
+    metadata:
+      backend: 'delta_table'
+    target:
+      backend: 'delta_table'
+
+    widgets:
+      defaults:
+        timestamp: "2022-01-01"
+        target_date_from: "2000-01-01"
+        target_date_to: "2022-01-01"
+        target_time_shift: "-5d"
+    time_windows: ["14d", "30d", "90d"]
+
+  datalakebundle:
+    table:
+      name_template: '%kernel.environment%_{identifier}'
+      defaults:
+        base_path: '%daipeproject.datalake.base_path%'
+        target_path: !expr 'base_path + "/" + db_identifier + "/" + table_identifier + ".delta"'
