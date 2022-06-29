@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "daipe-project"
+name = "odap-capstone"
 version = "1.0"
 description = "Daipe Project"
 

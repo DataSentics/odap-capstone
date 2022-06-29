@@ -1,0 +1,8 @@
+parameters:
+  dbxdeploy:
+    databricks:
+      host: '%odapcapstone.databricks.address%'
+      token: '%env(DBX_TOKEN)%'
+    target:
+      repo:
+        base_dir: "%odapcapstone.databricks.repo.base_dir%"
