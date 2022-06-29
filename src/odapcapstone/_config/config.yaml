@@ -1,6 +1,3 @@
-imports:
-  - orchestration.yaml
-
 parameters:
   odapcapstone:
     datalake:
