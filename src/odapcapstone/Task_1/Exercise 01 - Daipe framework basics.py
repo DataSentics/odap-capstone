@@ -37,8 +37,16 @@
 # MAGIC   * for Microsoft Azure - **Standard_DS3_v2**
 # MAGIC   * for Amazon Web Services - **i3.xlarge** 
 # MAGIC   * for Google Cloud Platform - **n1-highmem-4** 
+# MAGIC * Environment variables:
+# MAGIC   * `APP_ENV=dev`
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Task 1: Run Bootstrap
+# MAGIC To be able to run Daipe code it is necessary to first run bootstrap.
 # MAGIC 
-# MAGIC Please feel free to use the Community Edition if the recomended node types are not available.
+# MAGIC Learn about what bootstrap does [here](https://www.notion.so/datasentics/Bootstrap-7afb00d3c5064a9986742ca80ad93cb0)
 
 # COMMAND ----------
 
@@ -56,7 +64,21 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #### Check if bootstrap was successful
+
+# COMMAND ----------
+
 check_bootstrap()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Task 2: Import Daipe
+# MAGIC 
+# MAGIC Everything from Daipe can be accessed using one simple import
+# MAGIC 
+# MAGIC `import daipe as dp`
 
 # COMMAND ----------
 
@@ -65,8 +87,20 @@ import daipe as dp
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Decorators
+# MAGIC ## Task 3: Meet Decorators
+# MAGIC 
+# MAGIC Daipe is built around __decoratorated functions__.
+# MAGIC 
+# MAGIC __TL;DR__ Decorators start with a `@` and they are put on top a function definition. They usually take the output of the function and modify it without the function's knowledge. In some cases particularly in Daipe they can provide the function with arguments.
+# MAGIC 
+# MAGIC If you have never used decorators, learn about how they work [here](https://www.programiz.com/python-programming/decorator)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Daipe decorators `hello world`
 # MAGIC ### Simple Python
+# MAGIC This is how you would write a function in Python. Function has to be __defined__ and then __called__.
 
 # COMMAND ----------
 
@@ -79,6 +113,13 @@ hello_world()
 
 # MAGIC %md
 # MAGIC ### Daipe
+# MAGIC With Daipe decorated functions that is not the case. By using the `@dp.notebook_function()` decorator the function is called immediately after it is defined.
+# MAGIC 
+# MAGIC There are two top level decorators in Daipe: `@dp.notebook_function()` and ``@dp.transformation()``
+# MAGIC  - `@dp.transformation()` is used when the inputs and outputs of the decorated function are DataFrames
+# MAGIC  - `@dp.notebook_function()` is a general purpose decorator, it can be used for everything else
+# MAGIC  
+# MAGIC Learn more about top level decorators [here](https://datasentics.notion.site/Top-level-decorators-e3d015dc9a7a411fa220c90184d24794)
 
 # COMMAND ----------
 
@@ -89,7 +130,15 @@ def hello_world():
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Loading data
+# MAGIC #### Best practice
+# MAGIC Best practice is to have __exactly one__ decorated function per cell in notebook. This makes for _simpler_, _standardized_ and _self-documenting_ cells in notebooks.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Task 4: Loading data
+# MAGIC 
+# MAGIC Run the following cell to see where the data files for this exercise are located.
 
 # COMMAND ----------
 
@@ -105,6 +154,8 @@ dbutils.fs.ls(data_source_path)
 
 # MAGIC %md
 # MAGIC ### Simple PySpark
+# MAGIC 
+# MAGIC The following code should be familiar. This is how to load a CSV file in raw PySpark.
 
 # COMMAND ----------
 
@@ -115,12 +166,14 @@ display(df_customers)
 
 # MAGIC %md
 # MAGIC ### Daipe
+# MAGIC 
+# MAGIC `TODO`: Load the `customers.csv` in Daipe. Consult [documentation](https://datasentics.notion.site/Data-loading-functions-e6f89bfd2c49473f8fde8bf25f6580bd) about data loading functions if necessary.
+# MAGIC 
+# MAGIC __Important__: the decorated function must be called `load_customers` !!!
 
 # COMMAND ----------
 
-@dp.transformation(dp.read_csv(data_source_path + "/customers.csv", options={"header": True}), display=True)
-def load_customers(df):
-    return df
+# load customers.csv
 
 # COMMAND ----------
 
@@ -146,18 +199,18 @@ display(df_joined)
 
 # MAGIC %md
 # MAGIC ### Daipe
+# MAGIC 
+# MAGIC `TODO`: Load the `transactions_2022-06-06.csv` using Daipe in one decorated function and then pass both the loaded `customers` and `transactions` into another decorated function and perform a join on column `id`. Consult [documentation](https://datasentics.notion.site/Chaining-decorated-functions-633ff0008f5d448dbdc6ef7c9ccac9b9) on how to chain decorated functions if necessary.
+# MAGIC 
+# MAGIC __Important__: the decorated functions must be called `load_transactions` and `join_customers_and_transactions` !!!
 
 # COMMAND ----------
 
-@dp.transformation(dp.read_csv(data_source_path + "/transactions_2022-06-06.csv", options={"header": True}), display=True)
-def load_transactions(df):
-    return df
+# load transactions_2022-06-06.csv
 
 # COMMAND ----------
 
-@dp.transformation(load_customers, load_transactions, display=True)
-def join_customers_and_transactions(df_customers, df_transactions):
-    return df_customers.join(df_transactions, on="id")
+# join customers and transactions_2022-06-06.csv
 
 # COMMAND ----------
 

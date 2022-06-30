@@ -3,6 +3,7 @@ import os
 import inspect
 import ast
 from pyspark.sql.utils import AnalysisException
+import sys
 
 
 def checkmark(text):
@@ -29,10 +30,27 @@ def fail(text):
 def check_bootstrap():
     res_html = ""
     
-    if os.environ["DAIPE_BOOTSTRAPPED"] is not None:
-        res_html += checkmark("Bootstrap finished successfully")
-    else:
+    
+    if "APP_ENV" not in os.environ is None or os.environ["APP_ENV"] != "dev":
         res_html += fail("Bootstrap failed")
+        displayHTML(res_html)
+        return
+    
+    res_html += checkmark("APP_ENV=dev")
+    
+    if "daipecore" not in sys.modules and "datalakebundle" not in sys.modules and "databricksbundle" not in sys.modules and "injecta" not in sys.modules:
+        res_html += fail("Bootstrap installation failed")
+        displayHTML(res_html)
+        return
+        
+    res_html += checkmark("Bootstrap installation successful")
+        
+    if "DAIPE_BOOTSTRAPPED" not in os.environ:
+        res_html += fail("Bootstrap failed")
+        displayHTML(res_html)
+        return
+    
+    res_html += checkmark("Bootstrap finished successfully")
         
     globals()["check_bootstrap_pass"] = True
     displayHTML(res_html)
