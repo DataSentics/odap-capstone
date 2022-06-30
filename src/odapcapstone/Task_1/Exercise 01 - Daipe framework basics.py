@@ -42,6 +42,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../app/bootstrap
+
+# COMMAND ----------
+
 # MAGIC %md ### Setup - Run the exercise setup
 # MAGIC 
 # MAGIC Run the following cell to setup this exercise, declaring exercise-specific variables and functions.
@@ -49,10 +53,6 @@
 # COMMAND ----------
 
 # MAGIC %run ../_setup/init
-
-# COMMAND ----------
-
-# MAGIC %run ../app/bootstrap
 
 # COMMAND ----------
 
@@ -113,6 +113,11 @@ display(df_customers)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ### Daipe
+
+# COMMAND ----------
+
 @dp.transformation(dp.read_csv(data_source_path + "/customers.csv", options={"header": True}), display=True)
 def load_customers(df):
     return df
@@ -166,12 +171,54 @@ check_join_customers_and_transactions()
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ### Create a database
+
+# COMMAND ----------
+
+print(db_name)
+
+# COMMAND ----------
+
+from pyspark.sql import SparkSession
+
+@dp.notebook_function()
+def create_database(spark: SparkSession):
+    spark.sql(f"create database if not exists dev_{db_name}")
+
+# COMMAND ----------
+
+check_database()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Save data to a table
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ### Simple PySpark
 
 # COMMAND ----------
 
-# TODO: create database
+df_joined.write.format("delta").mode("overwrite").option("path", "dbfs:/tmp/odap-capstone/bronze/customer_transactions.delta").saveAsTable(f"{db_name}.customer_transactions")
 
 # COMMAND ----------
 
-#df_joined.saveAsTable()
+# MAGIC %md
+# MAGIC ### Daipe
+
+# COMMAND ----------
+
+@dp.transformation(join_customers_and_transactions)
+@dp.table_overwrite(f"{db_name}.customer_transactions")
+def save_customer_transactions(df):
+    return df
+
+# COMMAND ----------
+
+check_save_customer_transactions()
+
+# COMMAND ----------
+
+final_check()
