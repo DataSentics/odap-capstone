@@ -1,7 +1,7 @@
 parameters:
   odapcapstone:
     datalake:
-      base_path: '/%kernel.environment%'
+      base_path: '/%kernel.environment%/odap-capstone'
 
   datalakebundle:
     table:

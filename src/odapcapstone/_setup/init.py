@@ -286,7 +286,7 @@ def check_save_customer_transactions():
     
     res_html += checkmark(f"table `{env_db_name}.customer_transactions` is a Delta table")
     
-    path = f"dbfs:/{os.environ['APP_ENV']}/{db_name}/customer_transactions.delta"
+    path = f"dbfs:/{os.environ['APP_ENV']}/odap-capstone/{db_name}/customer_transactions.delta"
     if df.loc[19].values[1] != path:
         res_html += fail(f"table `{env_db_name}.customer_transactions` is NOT in the correct path")
         displayHTML(res_html)
