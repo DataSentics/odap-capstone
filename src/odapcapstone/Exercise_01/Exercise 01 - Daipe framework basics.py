@@ -53,7 +53,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../_setup/init
+# MAGIC %run ../_setup/init_exercise_01
 
 # COMMAND ----------
 
@@ -321,3 +321,8 @@ check_save_customer_transactions()
 # COMMAND ----------
 
 final_check()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### To make sure everything works in other, clear state of the notebook and Run all cells again

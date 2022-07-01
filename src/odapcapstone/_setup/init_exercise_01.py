@@ -210,6 +210,20 @@ def check_join_customers_and_transactions():
     res_html += checkmark(
         "the `join_customers_and_transactions` DataFrame has 1000 rows"
     )
+    
+    transformation_count = [type(arg).__name__ for arg in globals()["join_customers_and_transactions"]._args].count("transformation")
+    
+    if len(globals()["join_customers_and_transactions"]._args) < 2 or transformation_count < 2:
+        res_html += fail(
+            f"arguments of `join_customers_and_transactions` are not the expected transformations"
+        )
+        displayHTML(res_html)
+        return
+    
+    res_html += checkmark(
+        "arguments of `join_customers_and_transactions` are the expected transformations"
+    )
+    
     globals()["check_join_customers_and_transactions_pass"] = True
     displayHTML(res_html)
 
