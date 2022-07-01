@@ -1,4 +1,5 @@
 # Databricks notebook source
+# pylint: skip-file
 import os
 import inspect
 import ast
@@ -51,6 +52,13 @@ def check_bootstrap():
         return
     
     res_html += checkmark("Bootstrap finished successfully")
+    
+    if "dp" not in globals() or not hasattr(globals()["dp"], "transformation"):
+        res_html += fail("Daipe was not imported correctly")
+        displayHTML(res_html)
+        return
+    
+    res_html += checkmark("Daipe was imported correctly")
         
     globals()["check_bootstrap_pass"] = True
     displayHTML(res_html)

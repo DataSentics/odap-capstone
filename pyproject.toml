@@ -118,6 +118,7 @@ disable = [
     "ungrouped-imports",
     "unnecessary-comprehension",
     "wrong-import-order",
+    "trailing-whitespace",
 ]
 good-names = ["e", "i", "k", "v", "df"]
 

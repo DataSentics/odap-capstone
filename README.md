@@ -1,4 +1,4 @@
-# Daipe Framework project template
+# ODAP Capstone
 
 Welcome to [Daipe framework](https://daipe.ai/) project skeleton covering DataSentics' **best practices for Databricks projects**.
 

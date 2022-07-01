@@ -1,12 +1,4 @@
 # Databricks notebook source
-# MAGIC %md-sandbox
-# MAGIC 
-# MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
-# MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
-# MAGIC </div>
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC # Exercise #1 - Daipe framework basics
 # MAGIC 
@@ -66,15 +58,6 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC #### Check if bootstrap was successful
-
-# COMMAND ----------
-
-check_bootstrap()
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC ### Task 2: Import Daipe
 # MAGIC 
 # MAGIC Everything from Daipe can be accessed using one simple import
@@ -84,6 +67,15 @@ check_bootstrap()
 # COMMAND ----------
 
 import daipe as dp
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Check if bootstrap and imports were successful
+
+# COMMAND ----------
+
+check_bootstrap()
 
 # COMMAND ----------
 
@@ -178,6 +170,11 @@ display(df_customers)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #### Check if the load was successful
+
+# COMMAND ----------
+
 check_load_customers()
 
 # COMMAND ----------
@@ -213,6 +210,11 @@ display(df_joined)
 # COMMAND ----------
 
 # join customers and transactions_2022-06-06.csv
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Check if the join was successful
 
 # COMMAND ----------
 
@@ -257,6 +259,11 @@ print(db_name)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #### Check if the database was created properly
+
+# COMMAND ----------
+
 check_database()
 
 # COMMAND ----------
@@ -289,7 +296,9 @@ df_joined.write.format("delta").mode("overwrite").option("overwriteSchema", True
 # MAGIC 
 # MAGIC In Daipe most of these options are already taken care of. The user simply picks a decorator of the preferred mode (_append_, _overwrite_ or even _upsert_) and the rest is handled. The path can be configured in `_config/config.yaml` nonetheless it is preconfigured for this exercise so you do not need to change it.
 # MAGIC 
-# MAGIC `TODO`: write the data produced by the `join_customers_and_transactions` transformation to a table called `"dev_"` + `db_name` + `"customer_transactions"` using Daipe decorators. Consult [documentation](https://www.notion.so/datasentics/Data-writing-decorators-bccda0b556644e9bac7306b080e01ad3) on how to write data using decorators.
+# MAGIC `TODO`: write the data produced by the `join_customers_and_transactions` transformation to a table called `"dev_"` + `db_name` + `"customer_transactions"` using Daipe decorators, on repeated calling it should __overwrite__ the table. Consult [documentation](https://www.notion.so/datasentics/Data-writing-decorators-bccda0b556644e9bac7306b080e01ad3) on how to write data using decorators.
+# MAGIC 
+# MAGIC __Important__: the decorated function must be called `save_customer_transactions`
 
 # COMMAND ----------
 
@@ -297,7 +306,17 @@ df_joined.write.format("delta").mode("overwrite").option("overwriteSchema", True
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #### Check if the data saved properly
+
+# COMMAND ----------
+
 check_save_customer_transactions()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Check if everything is done
 
 # COMMAND ----------
 
