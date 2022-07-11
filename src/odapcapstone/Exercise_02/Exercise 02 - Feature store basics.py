@@ -170,7 +170,7 @@ check_customer_transactions_with_timestamps()
 
 # COMMAND ----------
 
-# write Daipe code to add timestamps to the output of load_customer_transactions_sdm
+# write Daipe code to create features and register them to the Feature store
 from pyspark.sql import functions as f
 
 @dp.transformation(customer_transactions_with_timestamps, display=False)
