@@ -1,0 +1,6 @@
+parameters:
+  featurestorebundle:
+    orchestration:
+      stages:
+        stage1:
+          "replace this with your notebook"

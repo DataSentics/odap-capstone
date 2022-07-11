@@ -41,9 +41,9 @@ def check_bootstrap():
 
     if (
         "daipecore" not in sys.modules
-        and "datalakebundle" not in sys.modules
-        and "databricksbundle" not in sys.modules
-        and "injecta" not in sys.modules
+        or "datalakebundle" not in sys.modules
+        or "databricksbundle" not in sys.modules
+        or "injecta" not in sys.modules
     ):
         res_html += fail("Bootstrap installation failed")
         displayHTML(res_html)
