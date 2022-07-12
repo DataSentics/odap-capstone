@@ -6,6 +6,11 @@ import ast
 from pyspark.sql.utils import AnalysisException
 import sys
 
+import json
+
+user = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson())["tags"]["user"]
+db_name = "odap_academy_" + ''.join(ch for ch in user if ch.isalnum())
+del user
 
 def checkmark(text):
     return f"""
@@ -435,20 +440,22 @@ def final_check():
         return
 
     res_html += checkmark("`save_customer_transactions` passed")
+    
+    try:
+        dbutils.fs.rm(f"dbfs:/dev/odap-capstone/{db_name}", True)
+        spark.sql(f"drop database if exists dev_{db_name} cascade")
+    except:
+        res_html += fail(f"cleanup failed")
+        displayHTML(res_html)
+        raise
+        
+    res_html += checkmark("cleanup successful")
     displayHTML(res_html)
 
 # COMMAND ----------
 
 data_project_path = "file:///" + "/".join(os.getcwd().split("/")[:5]) + "/data"
 data_source_path = "dbfs:/tmp/odap-capstone/data"
-
-# COMMAND ----------
-
-import json
-
-user = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson())["tags"]["user"]
-db_name = "odap_academy_" + ''.join(ch for ch in user if ch.isalnum())
-del user
 
 # COMMAND ----------
 

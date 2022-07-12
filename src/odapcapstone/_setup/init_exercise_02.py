@@ -1,5 +1,11 @@
 # Databricks notebook source
 # pylint: skip-file
+import json
+
+user = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson())["tags"]["user"]
+db_name = "odap_academy_" + ''.join(ch for ch in user if ch.isalnum())
+del user
+
 import os
 import inspect
 import ast
@@ -257,6 +263,14 @@ def check_more_than_two_transactions_last_year_flag():
         return
 
     res_html += checkmark("the resulting DataFrame has 998 rows")
+    
+    if more_than_two_transactions_last_year_flag_df.groupBy().agg(f.sum(f.col("more_than_two_transactions_last_year_flag").cast("integer"))).collect()[0][0] != 974:
+        res_html += fail(f"the resulting feature is NOT calculated correctly")
+        displayHTML(res_html)
+        return
+    
+    res_html += checkmark("the resulting feature is calculated correctly")
+    
     globals()["check_features_pass"] = True
     displayHTML(res_html)
 
@@ -297,19 +311,23 @@ def final_check():
         return
 
     res_html += checkmark("`check_more_than_two_transactions_last_year_flag` passed")
+    
+    try:
+        dbutils.fs.rm(f"dbfs:/dev/odap-capstone/{db_name}", True)
+        spark.sql(f"drop database if exists dev_{db_name} cascade")
+    except:
+        res_html += fail(f"cleanup failed")
+        displayHTML(res_html)
+        raise
+        
+    res_html += checkmark("cleanup successful")
     displayHTML(res_html)
 
 # COMMAND ----------
 
-import json
-
-user = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson())["tags"]["user"]
-db_name = "odap_academy_" + ''.join(ch for ch in user if ch.isalnum())
-del user
-
-# COMMAND ----------
-
 from pyspark.sql import functions as f
+
+spark.sql(f"create database if not exists dev_{db_name}")
 
 
 df_cust = spark.read.format("csv").option("header", True).load("dbfs:/tmp/odap-capstone/data/customers.csv")
@@ -334,7 +352,3 @@ df = (
 )
 
 df.write.format("delta").mode("overwrite").option("overwriteSchema", True).option("path", f"dbfs:/dev/odap-capstone/{db_name}/customer_transactions.delta").saveAsTable(f"dev_{db_name}.customer_transactions_sdm")
-
-# COMMAND ----------
-
-

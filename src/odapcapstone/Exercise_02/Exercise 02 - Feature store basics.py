@@ -10,6 +10,9 @@
 # MAGIC ## Daipe framework basics
 # MAGIC 
 # MAGIC 1. `Bootstrap`
+# MAGIC 2. `Imports`
+# MAGIC 3. `Entity and target store`
+# MAGIC 4. ``
 
 # COMMAND ----------
 
@@ -193,8 +196,13 @@ check_more_than_two_transactions_last_year_flag()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC #### Check if everything is done
+# MAGIC #### Check if everything is done and clean up
 
 # COMMAND ----------
 
 final_check()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### To make sure everything works in other, clear state of the notebook and Run all cells again
