@@ -12,7 +12,11 @@
 # MAGIC 1. `Bootstrap`
 # MAGIC 2. `Imports`
 # MAGIC 3. `Entity and target store`
-# MAGIC 4. ``
+# MAGIC 4. `Widgets`
+# MAGIC 5. `feature decorator`
+# MAGIC 6. `Loading SDM`
+# MAGIC 7. `Adding timestamps`
+# MAGIC 8. `Writing features`
 
 # COMMAND ----------
 
@@ -117,9 +121,6 @@ print(db_name)
 # COMMAND ----------
 
 # write Daipe code to load table customer_transactions_sdm
-@dp.transformation(dp.read_table("odap_academy_lukaslangrdatasenticscom.customer_transactions_sdm"))
-def load_customer_transactions_sdm(df):
-    return df
 
 # COMMAND ----------
 
@@ -144,15 +145,6 @@ check_load_customer_transactions_sdm()
 # COMMAND ----------
 
 # write Daipe code to add timestamps to the output of load_customer_transactions_sdm
-@dp.transformation(
-    dp.fs.with_timestamps_no_filter(
-        load_customer_transactions_sdm,
-        entity
-    ),
-    display=False
-)
-def customer_transactions_with_timestamps(df):
-    return df
 
 # COMMAND ----------
 
@@ -177,12 +169,6 @@ check_customer_transactions_with_timestamps()
 # COMMAND ----------
 
 # write Daipe code to create features and register them to the Feature store
-from pyspark.sql import functions as f
-
-@dp.transformation(customer_transactions_with_timestamps, display=False)
-@feature(dp.fs.Feature("more_than_two_transactions_last_year_flag", "Customer made more than two transactions in the last year", fillna_with=False))
-def more_than_two_transactions_last_year_flag(df):
-    return df.groupBy("customer_id", "timestamp").agg((f.count("id") > 2).alias("more_than_two_transactions_last_year_flag"))
 
 # COMMAND ----------
 
