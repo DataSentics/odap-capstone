@@ -1,8 +1,32 @@
+imports:
+  - orchestration.yaml
+
 parameters:
+  # Project custom configuration
   odapcapstone:
     datalake:
       base_path: '/%kernel.environment%/odap-capstone'
-
+  
+  # Feature store configuration
+  featurestorebundle:
+    # Paths
+    base_path: '%odapcapstone.datalake.base_path%'
+    db_name: '%kernel.environment%_odap_academy_feature_store'
+    # Features
+    entities:
+      martin_radocha:
+        id_column: "customer_id"
+        id_column_type: "integer"
+    # Defaults
+    widgets:
+      defaults:
+        timestamp: "2022-06-06"
+        target_date_from: "2021-06-06"
+        target_date_to: "2022-06-06"
+        target_time_shift: "0d"
+    time_windows: ["30d"]
+  
+  # Datalake tables configuration
   datalakebundle:
     table:
       name_template: '%kernel.environment%_{identifier}'
