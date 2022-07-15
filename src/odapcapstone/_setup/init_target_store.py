@@ -95,3 +95,7 @@ def init_targets_enum_table(target_config, db_name, logger: Logger, table_names:
         write.saveAsTable(f"{db_name}.{targets_enum_table}")
     else:
         write.save()
+
+# COMMAND ----------
+
+

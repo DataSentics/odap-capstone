@@ -72,6 +72,13 @@ import daipe as dp
 
 # COMMAND ----------
 
+#other imports
+
+from pyspark.sql import DataFrame
+from pyspark.sql.functions import count, when, col, countDistinct
+
+# COMMAND ----------
+
 check_bootstrap()
 
 # COMMAND ----------
@@ -108,6 +115,10 @@ feature = dp.fs.feature_decorator_factory.create(entity)
 
 # COMMAND ----------
 
+print(entity)
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ### Task 6: Load SDM quality data
 # MAGIC `TODO`: Load table `db_name` + `"customer_transactions_sdm"` using Daipe. Consult [documentation](https://datasentics.notion.site/Chaining-decorated-functions-633ff0008f5d448dbdc6ef7c9ccac9b9) on how to chain decorated functions if necessary.
@@ -121,6 +132,10 @@ print(db_name)
 # COMMAND ----------
 
 # write Daipe code to load table customer_transactions_sdm
+
+@dp.transformation(dp.read_table(f"{db_name}.customer_transactions_sdm"), display=True)
+def load_customer_transactions_sdm(df: DataFrame):
+    return df
 
 # COMMAND ----------
 
@@ -146,6 +161,10 @@ check_load_customer_transactions_sdm()
 
 # write Daipe code to add timestamps to the output of load_customer_transactions_sdm
 
+@dp.transformation(dp.fs.with_timestamps_no_filter(load_customer_transactions_sdm, entity), display=True)
+def customer_transactions_with_timestamps(df: DataFrame):
+    return df
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -170,6 +189,15 @@ check_customer_transactions_with_timestamps()
 
 # write Daipe code to create features and register them to the Feature store
 
+@dp.transformation(customer_transactions_with_timestamps, display=True)
+@feature(dp.fs.Feature("more_than_two_transactions_last_year_flag", "Customer made more than two transactions in the last year", fillna_with=False))
+def more_than_two_transactions_last_year_flag(df: DataFrame):
+    return (df
+            .groupBy(entity.get_primary_key())
+            .agg(when(count("customer_id") > 2, True).otherwise(False).alias("more_than_two_transactions_last_year_flag"))
+           )
+           
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -192,3 +220,11 @@ final_check()
 
 # MAGIC %md
 # MAGIC #### To make sure everything works in other, clear state of the notebook and Run all cells again
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC #Feedback
+# MAGIC 
+# MAGIC Very good exercises. I feel like that I am starting to understand how feature store works. Would be helpful if it included exercise with more target names.
