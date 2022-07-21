@@ -67,6 +67,10 @@
 # MAGIC Everything from Daipe can be accessed using one simple import
 # MAGIC 
 # MAGIC `import daipe as dp`
+# MAGIC 
+# MAGIC Everything needed to work with Time windows is imported using the following import 
+# MAGIC 
+# MAGIC `from featurestorebundle import time_windows as tw`
 
 # COMMAND ----------
 
@@ -139,7 +143,7 @@ def load_customer_transactions_sdm(df: DataFrame):
     dp.fs.with_timestamps(
         load_customer_transactions_sdm,
         entity,
-        "transaction_date"
+        # fill in correct argument
     ), display=True
 )
 def customer_transactions_with_timestamps(df: DataFrame):
@@ -162,7 +166,7 @@ check_timestamps()
     tw.make_windowed(
         customer_transactions_with_timestamps,
         entity,
-        "transaction_date"
+        # fill in correct argument
     ), display=True
 )
 def customer_transactions_with_time_windows(wdf: tw.WindowedDataFrame):
@@ -183,21 +187,7 @@ check_make_windowed()
 
 # COMMAND ----------
 
-@dp.transformation(
-    customer_transactions_with_time_windows, display=True
-)
-@feature(
-    dp.fs.Feature("sum_amount_{time_window}", "Sum of amount in last {time_window}", fillna_with=0)
-)
-def sum_features(wdf: tw.WindowedDataFrame):
-    def agg_features(time_window: str):
-        return [
-            tw.sum_windowed(
-                f"sum_amount_{time_window}",
-                f.col("amount")
-            )
-        ]
-    return wdf.time_windowed(agg_features)
+# write windowed Daipe code to create features and register them to the Feature store
 
 # COMMAND ----------
 
@@ -224,35 +214,7 @@ check_sum_features()
 
 # COMMAND ----------
 
-@dp.transformation(
-    customer_transactions_with_time_windows, display=True
-)
-@feature(
-    dp.fs.Feature("count_amount_{time_window}", "Count of amount in last {time_window}", fillna_with=0),
-    dp.fs.FeatureWithChange("avg_amount_{time_window}", "Average of amount in last {time_window}", fillna_with=0),
-    dp.fs.Feature("average_amount_more_than_5000_{time_window}", "Average of amount is greater than 5000 in last {time_window}", fillna_with=False),
-)
-def amount_features(wdf: tw.WindowedDataFrame):
-    def agg_features(time_window: str):
-        return [
-            tw.count_windowed(
-                f"count_amount_{time_window}",
-                f.col("amount")
-            ),
-            tw.avg_windowed(
-                f"avg_amount_{time_window}",
-                f.col("amount")
-            ),
-        ]
-        
-    def non_agg_features(time_window: str):
-        return [
-            dp.fs.column(
-                f"average_amount_more_than_5000_{time_window}",
-                f.col(f"avg_amount_{time_window}") > 5000,
-            ),
-        ]
-    return wdf.time_windowed(agg_features, non_agg_features)
+# write windowed Daipe code to create features and register them to the Feature store
 
 # COMMAND ----------
 
