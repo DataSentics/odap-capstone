@@ -485,7 +485,9 @@ protobuf = ">=3.7.0"
 
 [[package]]
 name = "feature-store-bundle"
+
 version = "2.5.0"
+
 description = "Feature Store for the Daipe AI Platform"
 category = "main"
 optional = false
@@ -1965,6 +1967,7 @@ lock-version = "1.1"
 python-versions = "3.8.10"
 content-hash = "9b99f6a11477da1538d704441264b25086e21c9a1bb130cc32c8c3eb9b9da228"
 
+
 [metadata.files]
 aiohttp = []
 aiosignal = []
@@ -1974,6 +1977,7 @@ astroid = []
 async-timeout = []
 attrs = []
 backcall = []
+
 bcrypt = []
 bleach = []
 boto3 = []
@@ -1990,11 +1994,13 @@ colorlog = []
 console-bundle = []
 cryptography = []
 curlify = []
+
 cycler = []
 cython = []
 daipe-core = []
 databricks-bundle = []
 databricks-cli = []
+
 datalake-bundle = []
 dbx-deploy = []
 dbx-notebook-exporter = []
@@ -2004,6 +2010,7 @@ defusedxml = []
 delta-spark = []
 distlib = []
 distro = []
+
 entrypoints = []
 facebook-business = []
 facets-overview = []
@@ -2030,18 +2037,21 @@ jedi = []
 jinja2 = []
 jmespath = []
 joblib = []
+
 jobs-bundle = []
 jsonschema = []
 jupyter-client = []
 jupyter-core = []
 kiwisolver = []
 koalas = []
+
 lazy-object-proxy = []
 lineage-bundle = []
 logger-bundle = []
 markupsafe = []
 matplotlib = []
 mccabe = []
+
 mistune = []
 multidict = []
 nbconvert = []
@@ -2058,6 +2068,7 @@ paramiko = []
 parso = []
 pastel = []
 patsy = []
+
 pexpect = []
 pickleshare = []
 pillow = []
@@ -2080,6 +2091,7 @@ pyfony-core = []
 pyfony-sqlalchemy-bundle = []
 pygit2 = []
 pygments = []
+
 pyjwt = []
 pylint = []
 pynacl = []
@@ -2092,6 +2104,7 @@ python-dateutil = []
 python-dotenv = []
 pytz = []
 pywin32 = []
+
 pyyaml = []
 pyzmq = []
 requests = []
@@ -2101,6 +2114,7 @@ rsa = []
 s3transfer = []
 salesforce-fuelsdk = []
 scikit-learn = []
+
 scipy = []
 seaborn = []
 simpleeval = []
@@ -2111,6 +2125,7 @@ statsmodels = []
 suds-jurko = []
 tabulate = []
 tenacity = []
+
 testpath = []
 threadpoolctl = []
 toml = []
@@ -2122,6 +2137,7 @@ urllib3 = []
 virtualenv = []
 wcwidth = []
 webencodings = []
+
 werkzeug = []
 wrapt = []
 yarl = []

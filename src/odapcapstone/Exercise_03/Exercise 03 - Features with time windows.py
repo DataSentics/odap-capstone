@@ -144,7 +144,9 @@ def load_customer_transactions_sdm(df: DataFrame):
         load_customer_transactions_sdm,
         entity,
         # fill in correct argument
+
       "transaction_date"
+
     ), display=True
 )
 def customer_transactions_with_timestamps(df: DataFrame):
@@ -168,7 +170,9 @@ check_timestamps()
         customer_transactions_with_timestamps,
         entity,
         # fill in correct argument
+
         "transaction_date"
+
     ), display=True
 )
 def customer_transactions_with_time_windows(wdf: tw.WindowedDataFrame):
@@ -190,6 +194,7 @@ check_make_windowed()
 # COMMAND ----------
 
 # write windowed Daipe code to create features and register them to the Feature store
+
 @dp.transformation(customer_transactions_with_time_windows, display=True)
 @feature(dp.fs.Feature("sum_amount_{time_window}", "Sum of amount in last {time_window}", fillna_with=0))
 def sum_features(wdf: tw.WindowedDataFrame):
@@ -257,7 +262,7 @@ def amount_features(wdf: DataFrame):
                 (f.col(f"average_amount_{time_window}") > 5000).cast("int")
             )
         ]
- 
+
     return wdf.time_windowed(agg_features, non_agg_features)
 
 # COMMAND ----------

@@ -69,9 +69,9 @@
 # COMMAND ----------
 
 import daipe as dp
+
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import count, when, col, countDistinct
-
 
 # COMMAND ----------
 
@@ -189,6 +189,7 @@ def more_than_two_transactions_last_year_flag(df: DataFrame):
             .agg(when(count("customer_id") > 2, True).otherwise(False).alias("more_than_two_transactions_last_year_flag"))
            )
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -211,3 +212,11 @@ final_check()
 
 # MAGIC %md
 # MAGIC #### To make sure everything works in other, clear state of the notebook and Run all cells again
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC #Feedback
+# MAGIC 
+# MAGIC Very good exercises. I feel like that I am starting to understand how feature store works. Would be helpful if it included exercise with more target names.
