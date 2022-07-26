@@ -74,6 +74,9 @@
 # COMMAND ----------
 
 import daipe as dp
+from pyspark.sql import SparkSession
+from pyspark.sql import DataFrame
+from logging import Logger
 
 # COMMAND ----------
 
@@ -174,6 +177,9 @@ display(df_customers)
 # COMMAND ----------
 
 # write Daipe code to load customers.csv
+@dp.transformation(dp.read_csv(data_source_path + "/customers.csv", options=dict(header=True, inferSchema=False, check_duplicate_columns=False)), display=True)
+def load_customers(df: DataFrame):
+    return df
 
 # COMMAND ----------
 
@@ -213,10 +219,16 @@ display(df_joined)
 # COMMAND ----------
 
 # write Daipe code to load transactions_2022-06-06.csv
+@dp.transformation(dp.read_csv(data_source_path + "/transactions_2022-06-06.csv", options=dict(header=True)), display=True)
+def load_transactions(df: DataFrame):
+    return df
 
 # COMMAND ----------
 
 # write Daipe code to join customers and transactions_2022-06-06.csv
+@dp.transformation(load_customers, load_transactions)
+def join_customers_and_transactions(df1: DataFrame, df2: DataFrame):
+    return df1.join(df2, "id")
 
 # COMMAND ----------
 
@@ -263,6 +275,9 @@ print(db_name)
 # COMMAND ----------
 
 # write Daipe code to create a database
+@dp.notebook_function()
+def create_database(spark: SparkSession):
+    spark.sql(f"create database dev_{db_name}")
 
 # COMMAND ----------
 
@@ -312,6 +327,10 @@ df_joined.write.format("delta").mode("overwrite").option("overwriteSchema", True
 # COMMAND ----------
 
 # write Daipe code to save joined customers and transactions to a table
+@dp.transformation(join_customers_and_transactions, display=True)
+@dp.table_overwrite(f"{db_name}.customer_transactions")
+def save_customer_transactions(df: DataFrame, logger: Logger):
+    return df
 
 # COMMAND ----------
 

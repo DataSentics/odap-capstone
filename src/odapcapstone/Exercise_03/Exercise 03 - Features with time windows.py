@@ -144,6 +144,7 @@ def load_customer_transactions_sdm(df: DataFrame):
         load_customer_transactions_sdm,
         entity,
         # fill in correct argument
+      "transaction_date"
     ), display=True
 )
 def customer_transactions_with_timestamps(df: DataFrame):
@@ -167,6 +168,7 @@ check_timestamps()
         customer_transactions_with_timestamps,
         entity,
         # fill in correct argument
+        "transaction_date"
     ), display=True
 )
 def customer_transactions_with_time_windows(wdf: tw.WindowedDataFrame):
@@ -188,6 +190,18 @@ check_make_windowed()
 # COMMAND ----------
 
 # write windowed Daipe code to create features and register them to the Feature store
+@dp.transformation(customer_transactions_with_time_windows, display=True)
+@feature(dp.fs.Feature("sum_amount_{time_window}", "Sum of amount in last {time_window}", fillna_with=0))
+def sum_features(wdf: tw.WindowedDataFrame):
+    def agg_features(time_window: str):
+        return [
+            tw.sum_windowed(
+                f"sum_amount_{time_window}",
+                f.col("amount"),
+            )
+        ] #!!!list because there has to be iterable object!!!
+ 
+    return wdf.time_windowed(agg_features)
 
 # COMMAND ----------
 
@@ -215,6 +229,36 @@ check_sum_features()
 # COMMAND ----------
 
 # write windowed Daipe code to create features and register them to the Feature store
+
+@dp.transformation(customer_transactions_with_time_windows, display=True)
+@feature(
+    dp.fs.FeatureWithChange("count_amount_{time_window}", "Count of amount in last {time_window}", fillna_with=0),
+    dp.fs.Feature("average_amount_more_than_5000_{time_window}", "Average of amount is greater than 5000 in last {time_window}", fillna_with=0),
+    dp.fs.FeatureWithChange("average_amount_{time_window}", "Average of amount in last {time_window}", fillna_with=0),
+)
+def amount_features(wdf: DataFrame):
+    def agg_features(time_window: str):
+        return [
+            tw.count_windowed(
+                f"count_amount_{time_window}",
+                f.col("amount")
+            ),
+            
+            tw.avg_windowed(
+                f"average_amount_{time_window}",
+                f.col("amount")
+            )
+        ]
+    
+    def non_agg_features(time_window: str):
+        return [
+            dp.fs.column(
+                f"average_amount_more_than_5000_{time_window}",
+                (f.col(f"average_amount_{time_window}") > 5000).cast("int")
+            )
+        ]
+ 
+    return wdf.time_windowed(agg_features, non_agg_features)
 
 # COMMAND ----------
 
