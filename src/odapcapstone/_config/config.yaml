@@ -14,7 +14,8 @@ parameters:
     db_name: '%kernel.environment%_odap_academy_feature_store'
     # Features
     entities:
-      name_of_entity:
+
+      martin_radocha:
         id_column: "customer_id"
         id_column_type: "integer"
     # Defaults
@@ -24,7 +25,9 @@ parameters:
         target_date_from: "2021-06-06"
         target_date_to: "2022-06-06"
         target_time_shift: "0d"
+
     time_windows: ["3d", "5d"]
+
   
   # Datalake tables configuration
   datalakebundle:
