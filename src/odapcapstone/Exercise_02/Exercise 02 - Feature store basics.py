@@ -70,10 +70,6 @@
 
 import daipe as dp
 
-# COMMAND ----------
-
-#other imports
-
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import count, when, col, countDistinct
 
@@ -112,10 +108,6 @@ def init_widgets(widgets_factory: dp.fs.WidgetsFactory):
 
 entity = dp.fs.get_entity()
 feature = dp.fs.feature_decorator_factory.create(entity)
-
-# COMMAND ----------
-
-print(entity)
 
 # COMMAND ----------
 
@@ -196,7 +188,7 @@ def more_than_two_transactions_last_year_flag(df: DataFrame):
             .groupBy(entity.get_primary_key())
             .agg(when(count("customer_id") > 2, True).otherwise(False).alias("more_than_two_transactions_last_year_flag"))
            )
-           
+
 
 # COMMAND ----------
 

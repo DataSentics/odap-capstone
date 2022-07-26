@@ -144,7 +144,9 @@ def load_customer_transactions_sdm(df: DataFrame):
         load_customer_transactions_sdm,
         entity,
         # fill in correct argument
-        "transaction_date"
+
+      "transaction_date"
+
     ), display=True
 )
 def customer_transactions_with_timestamps(df: DataFrame):
@@ -168,7 +170,9 @@ check_timestamps()
         customer_transactions_with_timestamps,
         entity,
         # fill in correct argument
-      "transaction_date"
+
+        "transaction_date"
+
     ), display=True
 )
 def customer_transactions_with_time_windows(wdf: tw.WindowedDataFrame):
@@ -201,10 +205,8 @@ def sum_features(wdf: tw.WindowedDataFrame):
                 f.col("amount"),
             )
         ] #!!!list because there has to be iterable object!!!
-
+ 
     return wdf.time_windowed(agg_features)
-
-        
 
 # COMMAND ----------
 

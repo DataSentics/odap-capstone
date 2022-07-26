@@ -1976,7 +1976,6 @@ appnope = []
 astroid = []
 async-timeout = []
 attrs = []
-
 backcall = []
 
 bcrypt = []
@@ -2000,7 +1999,6 @@ cycler = []
 cython = []
 daipe-core = []
 databricks-bundle = []
-
 databricks-cli = []
 
 datalake-bundle = []
@@ -2038,14 +2036,12 @@ isort = []
 jedi = []
 jinja2 = []
 jmespath = []
-
 joblib = []
 
 jobs-bundle = []
 jsonschema = []
 jupyter-client = []
 jupyter-core = []
-
 kiwisolver = []
 koalas = []
 
