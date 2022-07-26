@@ -4,7 +4,7 @@ imports:
 parameters:
   odapcapstone:
     databricks:
-      address: '[Your workspace address]'
+      address: 'https://adb-7591567723507203.3.azuredatabricks.net/'
       repo:
         base_dir: "/Repos/{repo_name}/{branch_name}"
       job:

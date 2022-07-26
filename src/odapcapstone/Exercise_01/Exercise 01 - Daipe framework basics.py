@@ -18,7 +18,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md ### Setup - Create A Cluster
+# MAGIC %md ### Setup - Create or Use An Appropriate A Cluster
 # MAGIC 
 # MAGIC #### Databricks
 # MAGIC 
@@ -32,6 +32,13 @@
 # MAGIC   * for Google Cloud Platform - **n1-highmem-4** 
 # MAGIC * Environment variables:
 # MAGIC   * `APP_ENV=dev`
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Comparing simple PySpark and Daipe
+# MAGIC 
+# MAGIC In this Excercise each task has an example solution in simple PySpark just to illustrate  
 
 # COMMAND ----------
 
@@ -85,7 +92,7 @@ check_bootstrap()
 # MAGIC %md
 # MAGIC ## Task 3: Meet Decorators
 # MAGIC 
-# MAGIC Daipe is built around __decoratorated functions__.
+# MAGIC Daipe is built around __decorated functions__.
 # MAGIC 
 # MAGIC __TL;DR__ Decorators start with a `@` and they are put on top a function definition. They usually take the output of the function and modify it without the function's knowledge. In some cases particularly in Daipe they can provide the function with arguments.
 # MAGIC 
@@ -169,7 +176,10 @@ display(df_customers)
 
 # COMMAND ----------
 
-# load customers.csv
+# write Daipe code to load customers.csv
+@dp.transformation(dp.read_csv(data_source_path + "/customers.csv", options=dict(header=True, inferSchema=False, check_duplicate_columns=False)), display=True)
+def load_customers(df: DataFrame):
+    return df
 
 @dp.transformation(dp.read_csv(data_source_path + "/customers.csv", options=dict(header=True, inferSchema=False, check_duplicate_columns=False)), display=True)
 def load_customers(df: DataFrame):
@@ -219,7 +229,10 @@ display(df_joined)
 
 # COMMAND ----------
 
-# load transactions_2022-06-06.csv
+# write Daipe code to load transactions_2022-06-06.csv
+@dp.transformation(dp.read_csv(data_source_path + "/transactions_2022-06-06.csv", options=dict(header=True)), display=True)
+def load_transactions(df: DataFrame):
+    return df
 
 @dp.transformation(dp.read_csv(data_source_path + "/transactions_2022-06-06.csv", options=dict(header=True)), display=True)
 def load_transactions(df: DataFrame):
@@ -227,7 +240,11 @@ def load_transactions(df: DataFrame):
 
 # COMMAND ----------
 
-# join customers and transactions_2022-06-06.csv
+# write Daipe code to join customers and transactions_2022-06-06.csv
+
+@dp.transformation(load_customers, load_transactions)
+def join_customers_and_transactions(df1: DataFrame, df2: DataFrame):
+    return df1.join(df2, "id")
 
 @dp.transformation(load_customers, load_transactions)
 def join_customers_and_transactions(df1: DataFrame, df2: DataFrame):
@@ -271,18 +288,19 @@ print(db_name)
 # MAGIC 
 # MAGIC `TODO`: Create a database called `"dev_" + db_name` (insert `db_name` from the output of cell above) using a `dp.notebook_function()` called `create_database` utilizing the pre-configured objects. Consult [documentation](https://datasentics.notion.site/Using-pre-configured-objects-ac54ac37a12b43478a0256d6b1a6e91c) on how to use pre-configured objects in Daipe.
 # MAGIC 
-# MAGIC Why the prefix `dev_`? Learn [more](https://www.notion.so/datasentics/Daipe-in-different-environments-f802146cff5c4ab491204826a32b0211)
+# MAGIC Why the prefix `dev_`? Learn [more](https://datasentics.notion.site/Daipe-in-different-environments-f802146cff5c4ab491204826a32b0211)
 # MAGIC 
 # MAGIC __Important__: the function must be called `create_database`
 
 # COMMAND ----------
 
-#dropping a database created before
-spark.sql(f'DROP DATABASE IF EXISTS dev_{db_name} CASCADE')
+# write Daipe code to create a database
 
-# COMMAND ----------
+ 
+@dp.notebook_function()
+def create_database(spark: SparkSession):
+    spark.sql(f"create database dev_{db_name}")
 
-# create a database
 
 @dp.notebook_function()
 def create_database(spark: SparkSession):
@@ -330,10 +348,17 @@ df_joined.write.format("delta").mode("overwrite").option("overwriteSchema", True
 # MAGIC `TODO`: write the data produced by the `join_customers_and_transactions` transformation to a table called `"dev_"` + `db_name` + `"customer_transactions"` using Daipe decorators, on repeated calling it should __overwrite__ the table. Consult [documentation](https://www.notion.so/datasentics/Data-writing-decorators-bccda0b556644e9bac7306b080e01ad3) on how to write data using decorators.
 # MAGIC 
 # MAGIC __Important__: the decorated function must be called `save_customer_transactions`
+# MAGIC 
+# MAGIC __Note__: any warnings can be ignored for the purposes of this exercise
 
 # COMMAND ----------
 
-# save joined customers and transactions to a table
+# write Daipe code to save joined customers and transactions to a table
+
+@dp.transformation(join_customers_and_transactions, display=True)
+@dp.table_overwrite(f"{db_name}.customer_transactions")
+def save_customer_transactions(df: DataFrame, logger: Logger):
+    return df
 
 @dp.transformation(join_customers_and_transactions, display=True)
 @dp.table_overwrite(f"{db_name}.customer_transactions")
