@@ -237,9 +237,9 @@ check_sum_features()
 
 @dp.transformation(customer_transactions_with_time_windows, display=True)
 @feature(
-    dp.fs.FeatureWithChange("count_amount_{time_window}", "Count of amount in last {time_window}", fillna_with=0),
-    dp.fs.Feature("average_amount_more_than_5000_{time_window}", "Average of amount is greater than 5000 in last {time_window}", fillna_with=0),
-    dp.fs.FeatureWithChange("average_amount_{time_window}", "Average of amount in last {time_window}", fillna_with=0),
+    dp.fs.Feature("count_amount_{time_window}", "Count of amount in last {time_window}", fillna_with=0),
+    dp.fs.Feature("average_amount_more_than_5000_{time_window}", "Average of amount is greater than 5000 in last {time_window}", fillna_with=False),
+    dp.fs.FeatureWithChange("avg_amount_{time_window}", "Average of amount in last {time_window}", fillna_with=0),
 )
 def amount_features(wdf: DataFrame):
     def agg_features(time_window: str):
@@ -250,7 +250,7 @@ def amount_features(wdf: DataFrame):
             ),
             
             tw.avg_windowed(
-                f"average_amount_{time_window}",
+                f"avg_amount_{time_window}",
                 f.col("amount")
             )
         ]
@@ -259,7 +259,7 @@ def amount_features(wdf: DataFrame):
         return [
             dp.fs.column(
                 f"average_amount_more_than_5000_{time_window}",
-                (f.col(f"average_amount_{time_window}") > 5000).cast("int")
+                (f.col(f"avg_amount_{time_window}") > 5000)
             )
         ]
 
