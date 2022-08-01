@@ -206,7 +206,7 @@ check_sum_features()
 # MAGIC `TODO`: Write a transformation which creates a set of features
 # MAGIC - `count_amount_{time_window}` and the description of `Count of amount in last {time_window}` where `NULL` values are filled with 0,
 # MAGIC - `average_amount_{time_window}` and the description of `Average of amount in last {time_window}` where `NULL` values are filled with 0,
-# MAGIC - `average_amount_more_than_5000_{time_window}` and the description of `Average of amount is greater than 5000 in last {time_window}` where `NULL` values are filled with 0 using the Windowed Dataframe API.
+# MAGIC - `average_amount_more_than_5000_{time_window}` and the description of `Average of amount is greater than 5000 in last {time_window}` where `NULL` values are filled with `False` using the Windowed Dataframe API.
 # MAGIC 
 # MAGIC Also get change features from `average_amount_{time_window}`. Consult [documentation](https://www.notion.so/datasentics/Change-features-d26e9921ecc04144874fdb2c9ffb51e9) on how to do it.
 # MAGIC 

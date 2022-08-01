@@ -227,12 +227,12 @@ def check_amount_features():
     expected_dtypes = [('customer_id', 'int'),
  ('timestamp', 'timestamp'),
  ('count_amount_3d', 'bigint'),
- ('avg_amount_3d', 'double'),
+ ('average_amount_3d', 'double'),
  ('count_amount_5d', 'bigint'),
- ('avg_amount_5d', 'double'),
+ ('average_amount_5d', 'double'),
  ('average_amount_more_than_5000_3d', 'boolean'),
  ('average_amount_more_than_5000_5d', 'boolean'),
- ('avg_amount_change_3d_5d', 'double')]
+ ('average_amount_change_3d_5d', 'double')]
 
     if "amount_features" not in globals():
         res_html += fail("`amount_features` not found")
@@ -273,7 +273,7 @@ def check_amount_features():
     
     name_temps = {arg.name_template for arg in amount_features.previous_decorator_instance._args}
     description_temps = {arg.description_template for arg in amount_features.previous_decorator_instance._args}
-    if name_temps != {"average_amount_more_than_5000_{time_window}", "avg_amount_{time_window}", "count_amount_{time_window}"}:
+    if name_temps != {"average_amount_more_than_5000_{time_window}", "average_amount_{time_window}", "count_amount_{time_window}"}:
         res_html += fail("feature name templates are wrong")
         displayHTML(res_html)
         return
@@ -292,7 +292,7 @@ def check_amount_features():
     # ===========================================================================
     
     fillnas = {arg.name_template: arg.fillna_with for arg in amount_features.previous_decorator_instance._args}
-    if fillnas["avg_amount_{time_window}"] != 0 or fillnas["count_amount_{time_window}"] != 0 or fillnas["count_amount_{time_window}"] != False:
+    if fillnas["average_amount_{time_window}"] != 0 or fillnas["count_amount_{time_window}"] != 0 or fillnas["count_amount_{time_window}"] != False:
         res_html += fail("one of the feature definition `fillna_with` arguments is wrong")
         displayHTML(res_html)
         return
@@ -320,7 +320,7 @@ def check_amount_features():
     
     # ===========================================================================
     
-    if amount_features_df.groupBy().agg(f.sum(f.col("avg_amount_3d").cast("integer"))).collect()[0][0] != 5373667:
+    if amount_features_df.groupBy().agg(f.sum(f.col("average_amount_3d").cast("integer"))).collect()[0][0] != 5373667:
         res_html += fail(f"the resulting feature is NOT calculated correctly")
         displayHTML(res_html)
         return
