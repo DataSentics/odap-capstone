@@ -5,12 +5,12 @@ parameters:
   # Project custom configuration
   odapcapstone:
     datalake:
-      base_path: '/%kernel.environment%/odap-capstone'
+      base_path: 'dbfs:/%kernel.environment%/odap-capstone'
   
   # Feature store configuration
   featurestorebundle:
     # Paths
-    base_path: '%odapcapstone.datalake.base_path%'
+    base_path: '%odapcapstone.datalake.base_path/{entity}'
     db_name: '%kernel.environment%_odap_academy_feature_store'
     # Features
     entities:
