@@ -46,7 +46,7 @@
 # MAGIC ### Task 1: Run Bootstrap
 # MAGIC To be able to run Daipe code it is necessary to first run bootstrap.
 # MAGIC 
-# MAGIC Learn about what bootstrap does [here](https://www.notion.so/datasentics/Bootstrap-7afb00d3c5064a9986742ca80ad93cb0)
+# MAGIC Learn about what bootstrap does [here](https://datasentics.notion.site/Bootstrap-7afb00d3c5064a9986742ca80ad93cb0)
 
 # COMMAND ----------
 

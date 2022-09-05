@@ -43,7 +43,7 @@
 # MAGIC ### Task 1: Run Bootstrap
 # MAGIC To be able to run Daipe code it is necessary to first run bootstrap.
 # MAGIC 
-# MAGIC Learn about what bootstrap does [here](https://www.notion.so/datasentics/Bootstrap-7afb00d3c5064a9986742ca80ad93cb0)
+# MAGIC Learn about what bootstrap does [here](https://datasentics.notion.site/Bootstrap-7afb00d3c5064a9986742ca80ad93cb0)
 
 # COMMAND ----------
 
@@ -100,7 +100,7 @@ def show_time_windows(time_windows):
 
 # MAGIC %md
 # MAGIC ### Task 4: Create control widgets
-# MAGIC Learn about control widgets [here](https://www.notion.so/datasentics/Core-functionality-aafe501fa561496abd72c062532f16ec#e068537fc9f24f19a999ec1dc2952c7e)
+# MAGIC Learn about control widgets [here](https://datasentics.notion.site/Core-functionality-aafe501fa561496abd72c062532f16ec#e068537fc9f24f19a999ec1dc2952c7e)
 
 # COMMAND ----------
 
@@ -112,7 +112,7 @@ def init_widgets(widgets_factory: dp.fs.WidgetsFactory):
 
 # MAGIC %md
 # MAGIC ### Task 5: Get entity and feature decorator
-# MAGIC Entity holds information about the _entity_ we are about to model in the Feature store. Feature decorator is used to register features into the Feature store. Learn more about the decorator [here](https://www.notion.so/datasentics/Core-functionality-aafe501fa561496abd72c062532f16ec#2f3691301ff54d778086fd4c341091b0)
+# MAGIC Entity holds information about the _entity_ we are about to model in the Feature store. Feature decorator is used to register features into the Feature store. Learn more about the decorator [here](https://datasentics.notion.site/Core-functionality-aafe501fa561496abd72c062532f16ec#2f3691301ff54d778086fd4c341091b0)
 
 # COMMAND ----------
 
@@ -135,7 +135,7 @@ def load_customer_transactions_sdm(df: DataFrame):
 # MAGIC %md
 # MAGIC ### Task 7: Add timestamps to loaded data
 # MAGIC 
-# MAGIC `TODO`: fill in appropriate date into the `with_timestamps` function. Consult [documentation](https://www.notion.so/datasentics/Core-functionality-aafe501fa561496abd72c062532f16ec#fce5c9866062466182a232ddfccbe89c) on the meaning of its arguments.
+# MAGIC `TODO`: fill in appropriate date into the `with_timestamps` function. Consult [documentation](https://datasentics.notion.site/Core-functionality-aafe501fa561496abd72c062532f16ec#fce5c9866062466182a232ddfccbe89c) on the meaning of its arguments.
 
 # COMMAND ----------
 
@@ -158,7 +158,7 @@ check_timestamps()
 # MAGIC %md
 # MAGIC ### Task 8: Make Windowed DataFrame
 # MAGIC 
-# MAGIC `TODO`: fill in appropriate date into the `make_windowed` function. Consult [documentation](https://www.notion.so/datasentics/Time-windows-helper-classes-and-functions-c10623ae913d42e0a60b268b264b45a1#7e6aa18855b146ba95f5580504e46c89) on the meaning of its arguments.
+# MAGIC `TODO`: fill in appropriate date into the `make_windowed` function. Consult [documentation](https://datasentics.notion.site/Time-windows-helper-classes-and-functions-c10623ae913d42e0a60b268b264b45a1#7e6aa18855b146ba95f5580504e46c89) on the meaning of its arguments.
 
 # COMMAND ----------
 
@@ -181,7 +181,7 @@ check_make_windowed()
 # MAGIC %md
 # MAGIC ## Task 9: Write features with time windows
 # MAGIC 
-# MAGIC `TODO`: Write a transformation which creates a set of features called `sum_amount_{time_window}` and the description of `Sum of amount in last {time_window}` where `NULL` values are filled with 0 using the Windowed Dataframe API. Consult [documentation](https://www.notion.so/datasentics/How-to-develop-features-with-time-windows-d2dde276e7b94ded9b4925fd4a6a2f08#f9d4ff85fbcf4e4681b94a3a612ab955) on how to do it.
+# MAGIC `TODO`: Write a transformation which creates a set of features called `sum_amount_{time_window}` and the description of `Sum of amount in last {time_window}` where `NULL` values are filled with 0 using the Windowed Dataframe API. Consult [documentation](https://datasentics.notion.site/How-to-develop-features-with-time-windows-d2dde276e7b94ded9b4925fd4a6a2f08#f9d4ff85fbcf4e4681b94a3a612ab955) on how to do it.
 # MAGIC 
 # MAGIC __Important__: the decorated function must be called `sum_features` !!!
 
@@ -208,7 +208,7 @@ check_sum_features()
 # MAGIC - `average_amount_{time_window}` and the description of `Average of amount in last {time_window}` where `NULL` values are filled with 0,
 # MAGIC - `average_amount_more_than_5000_{time_window}` and the description of `Average of amount is greater than 5000 in last {time_window}` where `NULL` values are filled with `False` using the Windowed Dataframe API.
 # MAGIC 
-# MAGIC Also get change features from `average_amount_{time_window}`. Consult [documentation](https://www.notion.so/datasentics/Change-features-d26e9921ecc04144874fdb2c9ffb51e9) on how to do it.
+# MAGIC Also get change features from `average_amount_{time_window}`. Consult [documentation](https://datasentics.notion.site/Change-features-d26e9921ecc04144874fdb2c9ffb51e9) on how to do it.
 # MAGIC 
 # MAGIC __Important__: the decorated function must be called `amount_features` !!!
 
