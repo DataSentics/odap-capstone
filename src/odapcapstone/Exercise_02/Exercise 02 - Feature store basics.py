@@ -136,7 +136,7 @@ check_load_customer_transactions_sdm()
 # MAGIC %md
 # MAGIC ### Task 7: Add timestamps to loaded data
 # MAGIC 
-# MAGIC Feature store needs a `timestamp` column to be able to register features. Learn more about why that is [here](https://www.notion.so/datasentics/How-to-develop-features-bb486a6d961b43c18ea9dda2ee7cd628#fd526e2788984e398dca4bbf8bdd7ae2)
+# MAGIC Feature store needs a `timestamp` column to be able to register features. Learn more about why that is [here](https://datasentics.notion.site/How-to-develop-features-bb486a6d961b43c18ea9dda2ee7cd628#fd526e2788984e398dca4bbf8bdd7ae2)
 # MAGIC 
 # MAGIC `TODO`: Create a Daipe decorated function to add `timestamps` to the load SDM data.
 # MAGIC 
@@ -162,7 +162,7 @@ check_customer_transactions_with_timestamps()
 # MAGIC 
 # MAGIC `TODO`: Write a transformation which creates a feature column called `more_than_two_transactions_last_year_flag` which is `True` if the customer made more than __two__ transactions and `False` otherwise, and register it into the Feature store.
 # MAGIC Use `Customer made more than two transactions in the last year` as the description and fill empty values with `False`.
-# MAGIC Consult [documentation](https://www.notion.so/datasentics/How-to-develop-features-bb486a6d961b43c18ea9dda2ee7cd628#83980cb985a3435ca428dc8f92146950) on how to write features.
+# MAGIC Consult [documentation](https://datasentics.notion.site/How-to-develop-features-bb486a6d961b43c18ea9dda2ee7cd628#83980cb985a3435ca428dc8f92146950) on how to write features.
 # MAGIC 
 # MAGIC __Important__: the decorated function must be called `more_than_two_transactions_last_year_flag` !!!
 
