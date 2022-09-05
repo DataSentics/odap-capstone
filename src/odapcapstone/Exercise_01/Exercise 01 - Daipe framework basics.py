@@ -303,7 +303,7 @@ df_joined.write.format("delta").mode("overwrite").option("overwriteSchema", True
 # MAGIC 
 # MAGIC In Daipe most of these options are already taken care of. The user simply picks a decorator of the preferred mode (_append_, _overwrite_ or even _upsert_) and the rest is handled. The path can be configured in `_config/config.yaml` nonetheless it is preconfigured for this exercise so you do not need to change it.
 # MAGIC 
-# MAGIC `TODO`: write the data produced by the `join_customers_and_transactions` transformation to a table called `"dev_"` + `db_name` + `"customer_transactions"` using Daipe decorators, on repeated calling it should __overwrite__ the table. Consult [documentation](https://www.notion.so/datasentics/Data-writing-decorators-bccda0b556644e9bac7306b080e01ad3) on how to write data using decorators.
+# MAGIC `TODO`: write the data produced by the `join_customers_and_transactions` transformation to a table called `"dev_"` + `db_name` + `"customer_transactions"` using Daipe decorators, on repeated calling it should __overwrite__ the table. Consult [documentation](https://datasentics.notion.site/Data-writing-decorators-bccda0b556644e9bac7306b080e01ad3) on how to write data using decorators.
 # MAGIC 
 # MAGIC __Important__: the decorated function must be called `save_customer_transactions`
 # MAGIC 
