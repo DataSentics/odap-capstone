@@ -1,6 +1,8 @@
 parameters:
+  root_module_path: '%databricksbundle.project_root.repo.path%/src/%daipe.root_module.name%'
+
   featurestorebundle:
     orchestration:
       stages:
         stage1:
-          "replace this with your notebook"
+          - "replace this with your notebook"
