@@ -25,6 +25,9 @@ parameters:
         target_date_to: "2022-06-06"
         target_time_shift: "0d"
     time_windows: ["3d", "5d"]
+    metadata:
+      table:
+        table_template: 'features_metadata_{entity}'
   
   # Datalake tables configuration
   datalakebundle:
