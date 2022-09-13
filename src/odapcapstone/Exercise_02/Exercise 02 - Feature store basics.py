@@ -77,11 +77,9 @@ check_bootstrap()
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC ### Task 3: Configure entity and Init target store
+# MAGIC ### Task 3: Configure entity
 # MAGIC 
 # MAGIC Go to `_config/config.yaml` and under `featurestorebundle.entities` change `name_of_entity` to some unique name for example __your name__. Learn more about entities [here](https://www.notion.so/datasentics/How-to-develop-features-bb486a6d961b43c18ea9dda2ee7cd628#330054af9514407cb1a326a4b23a93ac).
-# MAGIC 
-# MAGIC Then run this [notebook]($../_setup/init_target_store) __once__ to initialize _target store_. Target store is necessary for using Feature store. Learn more about Target store in [documentation](https://datasentics.notion.site/Target-store-3e7756b00b884335b1132d3c927459c1). 
 
 # COMMAND ----------
 
