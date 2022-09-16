@@ -5,4 +5,4 @@ parameters:
     orchestration:
       stages:
         stage1:
-          - "replace this with your notebook"
+          - "%root_module_path%/Exercise_03/Exercise 03 - Features with time windows"
