@@ -119,6 +119,14 @@ print(db_name)
 # COMMAND ----------
 
 # write Daipe code to load table customer_transactions_sdm
+@dp.transformation(
+    dp.read_table(
+        f"{db_name}.customer_transactions_sdm",
+        ),
+    display=True
+)
+def load_customer_transactions_sdm(df):
+    return df
 
 # COMMAND ----------
 
@@ -143,6 +151,15 @@ check_load_customer_transactions_sdm()
 # COMMAND ----------
 
 # write Daipe code to add timestamps to the output of load_customer_transactions_sdm
+@dp.transformation(
+    dp.fs.with_timestamps_no_filter(
+        load_customer_transactions_sdm,
+        entity,
+    ),
+    display=True
+)
+def customer_transactions_with_timestamps(df):
+    return df.cache()
 
 # COMMAND ----------
 
