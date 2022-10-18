@@ -14,7 +14,7 @@ parameters:
     db_name: '%kernel.environment%_odap_academy_feature_store'
     # Features
     entities:
-      name_of_entity:
+      daniela_vlasceanu:
         id_column: "customer_id"
         id_column_type: "integer"
     # Defaults
