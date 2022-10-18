@@ -174,6 +174,12 @@ display(df_customers)
 # COMMAND ----------
 
 # write Daipe code to load customers.csv
+@dp.transformation(
+    dp.read_csv(data_source_path + "/customers.csv", options=dict(header=True)),
+    display=True,
+)
+def load_customers(df_customers):
+    return df_customers
 
 # COMMAND ----------
 
@@ -213,10 +219,21 @@ display(df_joined)
 # COMMAND ----------
 
 # write Daipe code to load transactions_2022-06-06.csv
+@dp.transformation(
+    dp.read_csv(
+        data_source_path + "/transactions_2022-06-06.csv", options=dict(header=True)
+    ),
+    display=True,
+)
+def load_transactions(df_transactions):
+    return df_transactions
 
 # COMMAND ----------
 
 # write Daipe code to join customers and transactions_2022-06-06.csv
+@dp.transformation(load_customers, load_transactions, display=True)
+def join_customers_and_transactions(df_customers, df_transactions):
+    return df_customers.join(df_transactions, on="id")
 
 # COMMAND ----------
 
@@ -263,6 +280,11 @@ print(db_name)
 # COMMAND ----------
 
 # write Daipe code to create a database
+from pyspark.sql import SparkSession
+
+@dp.notebook_function()
+def create_database(spark: SparkSession):
+    spark.sql(f"CREATE DATABASE IF NOT EXISTS dev_{db_name}")
 
 # COMMAND ----------
 
@@ -312,6 +334,11 @@ df_joined.write.format("delta").mode("overwrite").option("overwriteSchema", True
 # COMMAND ----------
 
 # write Daipe code to save joined customers and transactions to a table
+
+@dp.transformation(join_customers_and_transactions, display=True)
+@dp.table_overwrite(f"{db_name}.dev_{db_name}customer_transactions")
+def save_customer_transactions(df):
+    return df
 
 # COMMAND ----------
 
