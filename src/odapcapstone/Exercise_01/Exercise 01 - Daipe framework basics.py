@@ -282,6 +282,9 @@ print(db_name)
 # COMMAND ----------
 
 from pyspark.sql import SparkSession
+
+# COMMAND ----------
+
 # write Daipe code to create a database
 @dp.notebook_function()
 def create_database(spark: SparkSession):
