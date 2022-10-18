@@ -119,6 +119,14 @@ print(db_name)
 # COMMAND ----------
 
 # write Daipe code to load table customer_transactions_sdm
+@dp.transformation(
+    dp.read_table(
+        f"{db_name}.customer_transactions_sdm",
+        ),
+    display=True
+)
+def load_customer_transactions_sdm(df):
+    return df
 
 # COMMAND ----------
 
@@ -143,6 +151,15 @@ check_load_customer_transactions_sdm()
 # COMMAND ----------
 
 # write Daipe code to add timestamps to the output of load_customer_transactions_sdm
+@dp.transformation(
+    dp.fs.with_timestamps_no_filter(
+        load_customer_transactions_sdm,
+        entity,
+    ),
+    display=True
+)
+def customer_transactions_with_timestamps(df):
+    return df.cache()
 
 # COMMAND ----------
 
@@ -167,6 +184,19 @@ check_customer_transactions_with_timestamps()
 # COMMAND ----------
 
 # write Daipe code to create features and register them to the Feature store
+import pyspark.sql.functions as f
+
+@dp.transformation(customer_transactions_with_timestamps, display=True)
+@feature(
+    dp.fs.Feature("more_than_two_transactions_last_year_flag", "Customer made more than two transactions in the last year", fillna_with=False)
+)
+def more_than_two_transactions_last_year_flag(df):
+    return (df
+           .groupBy(entity.get_primary_key())
+           .agg(f.count("amount").alias("num_transactions"))
+           .withColumn("more_than_two_transactions_last_year_flag", f.col("num_transactions")>2)
+           .drop(f.col("num_transactions"))
+           )
 
 # COMMAND ----------
 
