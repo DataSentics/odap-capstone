@@ -184,6 +184,19 @@ check_customer_transactions_with_timestamps()
 # COMMAND ----------
 
 # write Daipe code to create features and register them to the Feature store
+import pyspark.sql.functions as f
+
+@dp.transformation(customer_transactions_with_timestamps, display=True)
+@feature(
+    dp.fs.Feature("more_than_two_transactions_last_year_flag", "Customer made more than two transactions in the last year", fillna_with=False)
+)
+def more_than_two_transactions_last_year_flag(df):
+    return (df
+           .groupBy(entity.get_primary_key())
+           .agg(f.count("amount").alias("num_transactions"))
+           .withColumn("more_than_two_transactions_last_year_flag", f.col("num_transactions")>2)
+           .drop(f.col("num_transactions"))
+           )
 
 # COMMAND ----------
 
