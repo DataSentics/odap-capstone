@@ -188,10 +188,9 @@ def more_than_two_transactions_last_year_flag(df):
     return (
         df
         .groupBy(entity.get_primary_key())
-        .agg(
-            f.count("amount").alias("more_than_two_transactions_last_year_flag")
+        .agg(f.count("amount").alias("more_than_two_transactions_last_year_flag"))
+        .withColumn("more_than_two_transactions_last_year_flag", f.col("more_than_two_transactions_last_year_flag") > 2)
         )
-    )
 
 # COMMAND ----------
 
